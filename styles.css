@@ -1,3 +1,16 @@
+body {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  border: 5px solid #ffffff;
+  height: auto;
+}
+
 #tablero {
-  border: 2px solid #df1c1c;
+  width: 700px;
+  height: 500px;
+  border: 2px solid #ffffff;
 }
