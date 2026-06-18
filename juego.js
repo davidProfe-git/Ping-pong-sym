@@ -1,10 +1,11 @@
 let canvas = document.getElementById('canvas')
 let tablero = canvas.getContext('2d')
 let raquetaY = 150
-let pelota = { x: 100, y: 200}
+let pelota = { x:65 , y: 300,velx:5,vely:5}
 tablero.fillStyle = 'white' 
 dibujarTablero()
 mueveRaqueta()
+dibujarRaqueta()
 dibujaPelota()
 
 function dibujarTablero(){
@@ -12,6 +13,9 @@ function dibujarTablero(){
     for(i=0;i<=400;i= i + 15){
         tablero.fillRect(347.5,i,5,10)
     }
+    dibujaPelota()
+    mueveRaqueta()
+    requestAnimationFrame(dibujarTablero)
 }
 
 function mueveRaqueta(){
@@ -19,15 +23,12 @@ function mueveRaqueta(){
         if(tecla.key == 'ArrowUp' ){
             raquetaY = raquetaY - 5
             dibujarRaqueta()
-            dibujarTablero()
-            dibujaPelota()
             
         }
 
         if(tecla.key == 'ArrowDown'){
              raquetaY = raquetaY + 5
-             dibujarTablero()
-             dibujaPelota()
+           
             dibujarRaqueta()   
         }
     })
@@ -47,11 +48,20 @@ function dibujarRaqueta(){
 }
 
 function dibujaPelota(){
-    tablero.clearRect(0,0,700,400)//deja en blanco todo
+    // tablero.clearRect(0,0,700,400)//deja en blanco todo
     tablero.beginPath()
-    pelota.x = pelota.x + 5
-    pelota.y = pelota.y - 7
-    tablero.arc(pelota.x, pelota.y, 10,0, Math.PI * 2)
-    tablero.fill() //rellena la pelota
-    
+    pelota.x = pelota.x + pelota.velx
+     pelota.y = pelota.y + pelota.vely
+    //pared abajo
+    if(pelota.y >= 396 || pelota.y <= 17 ){
+            pelota.vely = pelota.vely * -1
+    }
+if(pelota.x >= 698 || pelota.x <= 10 ){
+            // pelota.velx = pelota.velx + 2 * -1
+            pelota.velx = pelota.velx * -1
+    }
+        tablero.arc(pelota.x, pelota.y, 10,0, Math.PI * 2)
+        tablero.fill() //rellena la pelotañ        
+
 }
+
