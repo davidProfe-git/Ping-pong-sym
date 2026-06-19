@@ -57,7 +57,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-#score {
+#score1, #score2 {
     padding: 10px 14px;
     border-radius: 12px;
     background: var(--panel);
@@ -69,12 +69,12 @@ h1 {
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
 }
 
-#score .label {
+#score1, #score2 .label {
     opacity: 0.85;
     font-weight: 600;
 }
 
-#score .value {
+#score1, #score2 .value {
     color: var(--accent2);
 }
 
