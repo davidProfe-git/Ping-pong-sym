@@ -1,3 +1,26 @@
-#tablero{
-    border: 2px solid red;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    font-family: 'Courier New';
+    overflow: hidden;
+}
+
+#tablero {
+    border: 3px solid rgb(255, 255, 255);
+    width: 706px;
+    height: 406px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
