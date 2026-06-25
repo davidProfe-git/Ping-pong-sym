@@ -2,40 +2,56 @@ let canvas = document.getElementById('canvas')
 let tablero = canvas.getContext('2d')
 let raquetaY = 150
 let pelota = { x:65 , y: 300,velx:5,vely:5}
+let jugador1 = {raqueta: 25,raquetaY:150, puntaje: 0}
+let jugador2 = {raqueta: 660,raquetaY:150, puntaje: 0}
+
 tablero.fillStyle = 'white' 
-dibujarTablero()
-mueveRaqueta()
-dibujarRaqueta()
-dibujaPelota()
 
 function dibujarTablero(){
-    dibujarRaqueta()
+    tablero.clearRect(0,0,700,400)//deja en blanco todo
+    tablero.fillRect(jugador1.raqueta,jugador1.raquetaY,20,100 )//pinta la raqueta    
+    tablero.fillRect(jugador2.raqueta,jugador2.raquetaY,20,100 )//pinta la raqueta    
+    //dibuja la linea de la mitad
     for(i=0;i<=400;i= i + 15){
         tablero.fillRect(347.5,i,5,10)
     }
-    dibujaPelota()
-    mueveRaqueta()
-    requestAnimationFrame(dibujarTablero)
+   tablero.beginPath()
+    tablero.arc(pelota.x, pelota.y, 10,0, Math.PI * 2)
+    tablero.fill() //rellena la pelotañ  
 }
+
+function iniciar(){
+    dibujarTablero()
+    dibujaPelota()
+    requestAnimationFrame(iniciar)
+}
+
+iniciar()
 
 function mueveRaqueta(){
     document.addEventListener('keydown', function(tecla){
         if(tecla.key == 'ArrowUp' ){
-            raquetaY = raquetaY - 5
-            dibujarRaqueta()
+            jugador2.raquetaY = jugador2.raquetaY - 15
+        }
+        if(tecla.key == 'ArrowDown'){
+            jugador2.raquetaY = jugador2.raquetaY + 15
+           
+        }
+           if(tecla.key == 'w' ){
+     
+            jugador1.raquetaY = jugador1.raquetaY - 15
+         
             
         }
 
-        if(tecla.key == 'ArrowDown'){
-             raquetaY = raquetaY + 5
-           
-            dibujarRaqueta()   
+        if(tecla.key == 's'){
+            jugador1.raquetaY = jugador1.raquetaY + 15
         }
     })
 }
 
 
-function dibujarRaqueta(){
+function dibujarRaqueta(jugador){
     tablero.clearRect(0,0,700,400)//deja en blanco todo
     if(raquetaY < 0){
         raquetaY = 0    
@@ -43,8 +59,9 @@ function dibujarRaqueta(){
     if(raquetaY > 300){
         raquetaY =300
     }
-    tablero.fillRect(25,raquetaY,20,100 )//pinta la raqueta
-    
+    tablero.fillRect(jugador,raquetaY,20,100 )//pinta la raqueta    
+   
+
 }
 
 function dibujaPelota(){
