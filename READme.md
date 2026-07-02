@@ -1,0 +1,1 @@
+Buenas tardes, aqui queda anexada la grabacion referente al funcionamiento del juego, con sus respectivas especificaciones cumplidas, esperando que disfrutes del juego 
