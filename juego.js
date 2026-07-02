@@ -2,105 +2,123 @@ let canvas = document.getElementById('canvas')
 const boton = document.getElementById('miBoton')
 const puntaje1 = document.getElementById('score1')
 const puntaje2 = document.getElementById('score2')
-
 let jugador1 = 0
 let jugador2 = 0
-
 let tablero = canvas.getContext('2d')
-var coordY = (canvas.height-100)/2
-var coordY2 = (canvas.height-100)/2
+var coordY = (canvas.height - 100) / 2
+var coordY2 = (canvas.height - 100) / 2
 tablero.fillStyle = 'white'
-
-
 var pelotaX = 350
 var pelotaY = 200
 var radio = 10
 var velX = 4
 var velY = 4
 
-function dibujaLinea(){
-    for(let i = 0; i <= 400; i = i + 15){
+
+const teclas = {
+    w: false,
+    s: false,
+    up: false,
+    down: false
+}
+
+function dibujaLinea() {
+    for (let i = 0; i <= 400; i = i + 15) {
         tablero.fillRect(347.5, i, 5, 10)
     }
 }
 
-function dibujaRaquetas(){
+function dibujaRaquetas() {
     tablero.fillRect(25, coordY, 20, 100)
     tablero.fillRect(655, coordY2, 20, 100)
 }
 
-function dibujaPelota(){
+function dibujaPelota() {
     tablero.beginPath()
     tablero.arc(pelotaX, pelotaY, radio, 0, Math.PI * 2)
     tablero.fill()
 }
 
-function dibujaTodo(){
+function dibujaTodo() {
     tablero.clearRect(0, 0, canvas.width, canvas.height)
     dibujaLinea()
     dibujaRaquetas()
     dibujaPelota()
 }
 
-mueveRaqueta()
-function mueveRaqueta (){
+function mueveRaqueta() {
     document.addEventListener('keydown', (tecla) => {
-        if (tecla.key === 'S' || tecla.key === 's'){
-            coordY += 20
+        if (['ArrowUp', 'ArrowDown', 'w', 'W', 's', 'S', 'i', 'I', 'k', 'K'].includes(tecla.key)) {
+            tecla.preventDefault()
         }
-        if (tecla.key === 'W' || tecla.key === 'w') {
-            coordY -= 20
-        }
-        if (tecla.key === 'ArrowDown' || tecla.key === 'k') {
-            coordY2 += 20
-        }
-        if (tecla.key === 'ArrowUp' || tecla.key === 'i') {
-            coordY2 -= 20
-        }
-        if (coordY > 300){ coordY = 300 }
-        if (coordY < 0){ coordY = 0 }
-        if (coordY2 > 300){ coordY2 = 300 }
-        if (coordY2 < 0){ coordY2 = 0 }
+
+        if (tecla.key === 'w' || tecla.key === 'W') teclas.w = true
+        if (tecla.key === 's' || tecla.key === 'S') teclas.s = true
+        if (tecla.key === 'ArrowUp' || tecla.key === 'i' || tecla.key === 'I') teclas.up = true
+        if (tecla.key === 'ArrowDown' || tecla.key === 'k' || tecla.key === 'K') teclas.down = true
+    })
+
+    document.addEventListener('keyup', (tecla) => {
+        if (tecla.key === 'w' || tecla.key === 'W') teclas.w = false
+        if (tecla.key === 's' || tecla.key === 'S') teclas.s = false
+        if (tecla.key === 'ArrowUp' || tecla.key === 'i' || tecla.key === 'I') teclas.up = false
+        if (tecla.key === 'ArrowDown' || tecla.key === 'k' || tecla.key === 'K') teclas.down = false
     })
 }
 
-function muevePelota(){
+function actualizaRaquetas() {
+    if (teclas.w) coordY -= 8
+    if (teclas.s) coordY += 8
+    if (teclas.up) coordY2 -= 8
+    if (teclas.down) coordY2 += 8
+
+    if (coordY > 300) { coordY = 300 }
+    if (coordY < 0) { coordY = 0 }
+    if (coordY2 > 300) { coordY2 = 300 }
+    if (coordY2 < 0) { coordY2 = 0 }
+}
+
+function muevePelota() {
     pelotaX += velX
     pelotaY += velY
 
-
-    if (pelotaY - radio <= 0 || pelotaY + radio >= canvas.height){
+    if (pelotaY - radio <= 0 || pelotaY + radio >= canvas.height) {
         velY = -velY
     }
 
-
-    if (pelotaX - radio <= 45 && pelotaY >= coordY && pelotaY <= coordY + 100){
+    if (velX < 0 &&
+        pelotaX - radio <= 45 &&
+        pelotaX - radio >= 25 &&
+        pelotaY >= coordY && pelotaY <= coordY + 100) {
         velX = -velX
     }
 
-
-    if (pelotaX + radio >= 655 && pelotaY >= coordY2 && pelotaY <= coordY2 + 100){
+    if (velX > 0 &&
+        pelotaX + radio >= 655 &&
+        pelotaX + radio <= 675 &&
+        pelotaY >= coordY2 && pelotaY <= coordY2 + 100) {
         velX = -velX
     }
 
-    if (pelotaX < 0 ){
+    if (pelotaX < 0) {
         puntaje2.innerHTML = `Score:</span> <span class="value">${jugador2 += 1}</span>`
         pelotaX = 350
         pelotaY = 200
     }
-    if (pelotaX > canvas.width){
-        puntaje1.innerHTML= `Score:</span> <span class="value">${jugador1 += 1}</span>`
+    if (pelotaX > canvas.width) {
+        puntaje1.innerHTML = `Score:</span> <span class="value">${jugador1 += 1}</span>`
         pelotaX = 350
-        pelotaY = 200    
+        pelotaY = 200
     }
 }
 
-boton.addEventListener("click",function(){
-    
-    function loop(){
+mueveRaqueta()
+
+boton.addEventListener("click", function () {
+    function loop() {
+        actualizaRaquetas()
         muevePelota()
         dibujaTodo()
     }
-    
     setInterval(loop, 20)
 })
