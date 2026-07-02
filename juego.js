@@ -33,11 +33,13 @@ function mueveRaqueta(){
         if(tecla.key == 'ArrowUp' ){
             jugador2.raquetaY = jugador2.raquetaY - 15
         }
+        
         if(tecla.key == 'ArrowDown'){
             jugador2.raquetaY = jugador2.raquetaY + 15
            
         }
-           if(tecla.key == 'w' ){
+        
+        if(tecla.key == 'w' ){
      
             jugador1.raquetaY = jugador1.raquetaY - 15
          
